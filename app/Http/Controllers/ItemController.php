@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\ItemsExport;
 use App\Models\Category;
 use App\Models\Item;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ItemController extends Controller
 {
@@ -63,6 +65,7 @@ class ItemController extends Controller
      */
     public function show(Item $item)
     {
+        $item = Item::with('category')->find($item->id);
         return view('items.show', compact('item'));
     }
 
@@ -118,6 +121,11 @@ class ItemController extends Controller
         $item->delete();
         return redirect()->route('items.index')
             ->with('success', 'Item deleted successfully');
+    }
+
+    public function export()
+    {
+        return Excel::download(new ItemsExport(), 'items.xlsx');
     }
 
 }

@@ -19,3 +19,4 @@ Route::get('/', function () {
 
 
 Route::resource('items', ItemController::class);
+Route::get('items-export', [ItemController::class, 'export'])->name('items.export');

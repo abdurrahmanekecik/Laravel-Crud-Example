@@ -30,7 +30,7 @@
 
 <div class="container mt-5">
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2 class="text-primary">Items</h2>
+        <a href="{{ route("items.export") }}" class="btn btn-success"> Excel Çıktısı Al</a>
         <div class="d-flex">
             <input type="search" id="search-input" class="form-control me-2 search-bar" placeholder="Item Bilgisi Girin" onkeyup="searchTable()">
             <a href="{{ route('items.create') }}" class="btn btn-primary">Yeni Item Ekle</a>
