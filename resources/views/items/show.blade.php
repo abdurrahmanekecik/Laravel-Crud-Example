@@ -21,9 +21,8 @@
     <div class="form-group mb-3">
         <label for="category_id">Kategori</label>
         <select class="form-control" id="category_id" name="category_id" disabled>
-            @foreach($categories as $category)
-                <option value="{{ $category->id }}" {{ $item->category_id == $category->id ? 'selected' : '' }}>{{ $category->name }}</option>
-            @endforeach
+
+                <option >{{ $item->category->name }}</option>
         </select>
     </div>
     <div class="form-group mb-3">
@@ -31,18 +30,28 @@
         <input type="text" class="form-control" id="name" name="name" value="{{ $item->name }}" disabled>
     </div>
 
+
+
+
     <div class="form-group mb-3">
-        <label for="status">Durumu</label>
-        <select class="form-control" id="status" name="status" disabled>
-            <option value="1" {{ $item->status == 1 ? 'selected' : '' }}>Aktif</option>
-            <option value="0" {{ $item->status == 0 ? 'selected' : '' }}>Pasif</option>
-            <option value="2" {{ $item->status == 2 ? 'selected' : '' }}>Beklemede</option>
-        </select>
+        <label>Durumu</label>
+        <div class="form-check">
+            <input class="form-check-input" type="radio" id="status_active" disabled name="status" value="1" {{ $item->status == 1 ? 'checked' : '' }}>
+            <label class="form-check-label" for="status_active">Aktif</label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="radio" id="status_passive" disabled name="status" value="0" {{ $item->status == 0 ? 'checked' : '' }}>
+            <label class="form-check-label" for="status_passive">Pasif</label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="radio" id="status_pending" disabled name="status" value="2" {{ $item->status == 2 ? 'checked' : '' }}>
+            <label class="form-check-label" for="status_pending">Beklemede</label>
+        </div>
     </div>
     <div class="form-group mb-3">
         <label for="image">Görseli</label>
         <div>
-            <img src="{{ asset('storage/images/' . $item->image) }}" alt="Item Image" class="img-fluid">
+            <img src="{{ asset('images/' . $item->image) }}" alt="Item Image" class="img-fluid">
         </div>
     </div>
 

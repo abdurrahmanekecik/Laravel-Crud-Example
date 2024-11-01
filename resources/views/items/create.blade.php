@@ -33,14 +33,21 @@
             <input type="text" class="form-control" id="name" name="name">
         </div>
 
-        <div class="form-group mb-3">
-            <label for="status">Durumu</label>
-            <select class="form-control" id="status" name="status">
-                <option value="1">Aktif</option>
-                <option value="0">Pasif</option>
-                <option value="2">Beklemede</option>
-            </select>
-        </div>
+       <div class="form-group mb-3">
+    <label>Durumu</label>
+    <div class="form-check">
+        <input class="form-check-input" type="radio" id="status_active" name="status" value="1">
+        <label class="form-check-label" for="status_active">Aktif</label>
+    </div>
+    <div class="form-check">
+        <input class="form-check-input" type="radio" id="status_passive" name="status" value="0">
+        <label class="form-check-label" for="status_passive">Pasif</label>
+    </div>
+    <div class="form-check">
+        <input class="form-check-input" type="radio" id="status_pending" name="status" value="2">
+        <label class="form-check-label" for="status_pending">Beklemede</label>
+    </div>
+</div>
         <div class="form-group mb-3">
             <label for="image">Görseli</label>
             <input type="file" class="form-control" id="image" name="image">

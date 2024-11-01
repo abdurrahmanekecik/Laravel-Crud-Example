@@ -85,7 +85,7 @@ class ItemController extends Controller
     {
         $item->category_id = $request->category_id;
         $item->name = $request->name;
-        $item->slug = Str::slug($request->name);
+        $item->slug = $request->slug;
         $item->description = $request->description;
         $item->status = $request->status;
 
