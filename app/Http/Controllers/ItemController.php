@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Item;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -13,7 +14,7 @@ class ItemController extends Controller
      */
     public function index()
     {
-        $items = Item::all();
+        $items = Item::with('category')->latest()->paginate(10);
         return view('items.index', compact('items'));
     }
 
@@ -22,7 +23,8 @@ class ItemController extends Controller
      */
     public function create()
     {
-        return view('items.create');
+        $categories = Category::all();
+        return view('items.create', compact('categories'));
     }
 
     /**
@@ -45,13 +47,15 @@ class ItemController extends Controller
             $item->image = $name;
         }
         $item->save();
+        if ($item) {
+            return redirect()->route('items.index')
+                ->with('success', 'Item created successfully.');
+        }
+        else {
+            return redirect()->route('items.create')
+                ->old()->with('error', 'Item creation failed.');
+        }
 
-
-
-
-
-        return redirect()->route('items.index')
-            ->with('success', 'Item created successfully.');
     }
 
     /**
@@ -67,7 +71,8 @@ class ItemController extends Controller
      */
     public function edit(Item $item)
     {
-        return view('items.edit', compact('item'));
+        $categories = Category::all();
+        return view('items.edit', compact('item','categories'));
     }
 
     /**
@@ -89,8 +94,14 @@ class ItemController extends Controller
             $item->image = $name;
         }
         $item->save();
-        return redirect()->route('items.index')
-            ->with('success', 'Item updated successfully');
+        if ($item) {
+            return redirect()->route('items.index')
+                ->with('success', 'Item created successfully.');
+        }
+        else {
+            return redirect()->route('items.create')
+                ->old()->with('error', 'Item creation failed.');
+        }
     }
 
     /**
@@ -98,8 +109,15 @@ class ItemController extends Controller
      */
     public function destroy(Item $item)
     {
+        if ($item->image) {
+            $image_path = public_path('/images/') . $item->image;
+            if (file_exists($image_path)) {
+                unlink($image_path);
+            }
+        }
         $item->delete();
         return redirect()->route('items.index')
             ->with('success', 'Item deleted successfully');
     }
+
 }

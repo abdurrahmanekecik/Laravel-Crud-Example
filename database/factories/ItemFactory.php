@@ -20,7 +20,7 @@ class ItemFactory extends Factory
             'name' => $this->faker->name,
             'category_id' => rand(1, 5),
             'slug' => $this->faker->unique()->slug,
-            'image' => $this->faker->imageUrl(),
+            'image' =>'150x150.png',
             'description' => $this->faker->text,
             'status' => 1,
         ];
