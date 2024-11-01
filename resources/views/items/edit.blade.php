@@ -8,6 +8,8 @@
 
     <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css"/>
+    <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
 
     <style>
         body {
@@ -18,7 +20,7 @@
 <body>
 
 <div class="container mt-5">
-    <form action="{{ route('items.update', $item->id) }}" method="POST" enctype="multipart/form-data">
+    <form id="updateForm" action="{{ route('items.update', $item->id) }}" method="POST" enctype="multipart/form-data">
         @method('PUT')
         @csrf
 
@@ -60,7 +62,7 @@
             <textarea class="form-control" id="summernote" name="description">{{ old('description', $item->description) }}</textarea>
         </div>
 
-        <button type="submit" class="btn btn-primary mt-3">Güncelle</button>
+        <button type="button" onclick="confirmUpdate()" class="btn btn-primary mt-3">Güncelle</button>
     </form>
 
 </div>
@@ -71,6 +73,23 @@
             height: 400
         });
     });
+
+
+    function confirmUpdate() {
+        alertify.confirm("Uyarı",
+            "Bu işlemi yapmak istediğinizden emin misiniz?",
+            function () {
+                document.querySelector("#updateForm").submit();
+            },
+            function () {
+                alertify.error("İşlem iptal edildi.");
+            }
+        ).set({
+            labels: { ok: "Evet", cancel: "Hayır" },
+            title: "Onay"
+        });
+    }
+
 </script>
 
 </body>

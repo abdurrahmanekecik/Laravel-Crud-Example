@@ -4,6 +4,10 @@
     <title>Items</title>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css"/>
+    <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
+
     <style>
         body {
             background-color: #f8f9fa;
@@ -63,11 +67,13 @@
                         @endif
                     </td>
                     <td>
+                        <a href="{{ route('items.show', $item->id) }}" class="btn btn-sm btn-info">Görüntüle</a>
+
                         <a href="{{ route('items.edit', $item->id) }}" class="btn btn-sm btn-primary">Düzenle</a>
-                        <form action="{{ route('items.destroy', $item->id) }}" method="POST" class="d-inline">
+                        <form id="deleteForm" action="{{ route('items.destroy', $item->id) }}" method="POST" class="d-inline">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" class="btn btn-sm btn-danger">Sil</button>
+                            <button type="button" onclick="confirmDelete()" class="btn btn-sm btn-danger">Sil</button>
                         </form>
                     </td>
                 </tr>
@@ -102,6 +108,22 @@
             }
         }
     }
+
+    function confirmDelete() {
+        alertify.confirm("Uyarı",
+            "Bu işlemi yapmak istediğinizden emin misiniz?",
+            function () {
+                document.querySelector("#deleteForm").submit();
+            },
+            function () {
+                alertify.error("İşlem iptal edildi.");
+            }
+        ).set({
+            labels: { ok: "Evet", cancel: "Hayır" },
+            title: "Onay"
+        });
+    }
+
 </script>
 
 </body>
